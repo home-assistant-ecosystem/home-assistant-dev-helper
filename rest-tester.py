@@ -50,5 +50,16 @@ class Sensor(Resource):
 api.add_resource(Sensor, '/sensor')
 
 
+# aREST
+class Arest(Resource):
+    def get(self):
+        return {'message': 'Pin D6 set to 1',
+                'id': 'test',
+                'name': 'ha-arest',
+                'connected': True}
+
+api.add_resource(Arest, '/arest_sensor')
+
+
 if __name__ == '__main__':
     app.run(debug=True)
