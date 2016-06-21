@@ -1,0 +1,8 @@
+<!doctype html>
+{% if name %}
+<title>Sensor: {{ name }}</title>
+  <h1>Value of {{ name }}: {{ value }}</h1>
+{% else %}
+<title>Sensor</title>
+  <h1>{{ value }}</h1>
+{% endif %}
