@@ -2,11 +2,11 @@ Home Assistant Developer Helper
 ===============================
 
 This repository contains little helpers for testing and developing platform
-and/or components for `Home Assistant <https://home-assistant.io>`__.
+and/or components for `Home Assistant <https://home-assistant.io>`__. 
 
 
-REST tester
------------
+REST tester (``rest-tester.py``)
+--------------------------------
 
 The `Flask-RESTful <http://flask-restful.readthedocs.io>`__ extension for 
 `Flask <http://flask.pocoo.org/>`__ can be used to simulate devices locally. 
@@ -48,9 +48,16 @@ like this:
 
 The available endpoints are:
 
-- /binary_sensor
-- /sensor
+- ``/binary_sensor``
+- `/sensor``
 
+Web tester (``web-tester.py``)
+------------------------------
+This script provides a `Flask <http://flask.pocoo.org/>`__ based web server
+that is storing sensor values in various ways.
+
+- ``sensor`` and ``sensor/<name>``
+- ``/sensor_data.txt``
 
 
 License
