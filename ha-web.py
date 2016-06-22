@@ -29,4 +29,4 @@ def sensor(name=None):
     return render_template('sensor.html', name=name, value=value)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)
