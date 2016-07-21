@@ -7,7 +7,7 @@ import random
 from datetime import datetime
 
 from flask import Flask
-from flask_restful import Resource, Api
+from flask_restful import Resource, Api, reqparse
 
 app = Flask('home-assistant-rest-tester')
 api = Api(app)
@@ -18,7 +18,7 @@ state3 = ['true', 'false']
 state4 = ['TRUE', 'FALSE']
 state5 = ['on', 'off']
 state6 = ['Open', 'Close']
-
+sensor2 = {'name': 'Sensor2', 'value': 0}
 
 class Api(Resource):
     def get(self):
@@ -48,6 +48,21 @@ class Sensor(Resource):
                 'value': random.randrange(0, 30, 1)}
 
 api.add_resource(Sensor, '/sensor')
+
+# Sensor2 for POST
+parser = reqparse.RequestParser()
+parser.add_argument('value')
+
+class Sensor2(Resource):
+    def get(self):
+        return sensor2
+
+    def post(self):
+        args = parser.parse_args()
+        sensor2['value'] = int(args['value'])
+        return sensor2
+
+api.add_resource(Sensor2, '/sensor2')
 
 
 # aREST
