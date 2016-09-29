@@ -8,8 +8,13 @@ from datetime import datetime
 
 from flask import Flask
 from flask_restful import Resource, Api, reqparse
+from flask_httpauth import HTTPBasicAuth, HTTPDigestAuth
 
 app = Flask('home-assistant-rest-tester')
+app.config['SECRET_KEY'] = 'c846b95c4eb4f8f5a76e52d8fdcee815e7f1b19f799aed511a0616115bb87694'
+auth_basic = HTTPBasicAuth()
+auth_digest = HTTPDigestAuth()
+
 api = Api(app)
 
 state1 = [1, 0]
@@ -19,6 +24,20 @@ state4 = ['TRUE', 'FALSE']
 state5 = ['on', 'off']
 state6 = ['Open', 'Close']
 sensor2 = {'name': 'Sensor2', 'value': 0}
+
+
+users = {
+    'ha1': 'test1',
+    'ha2': 'test2'
+}
+
+@auth_basic.get_password
+@auth_digest.get_password
+def get_pw(username):
+    if username in users:
+        return users.get(username)
+    return None
+
 
 class Api(Resource):
     def get(self):
@@ -63,6 +82,23 @@ class Sensor2(Resource):
         return sensor2
 
 api.add_resource(Sensor2, '/sensor2')
+
+# Authentication
+class auth_basic(Resource):
+    @auth_basic.login_required
+    def get(self):
+        return {'name': 'Sensor',
+                'value': random.randrange(0, 30, 1)}
+
+api.add_resource(auth_basic, '/auth_basic')
+
+class auth_digest(Resource):
+    @auth_digest.login_required
+    def get(self):
+        return {'name': 'Sensor',
+                'value': random.randrange(0, 30, 1)}
+
+api.add_resource(auth_digest, '/auth_digest')
 
 
 # aREST
