@@ -7,7 +7,7 @@ import random
 from datetime import datetime
 
 from flask import Flask
-from flask_restful import Resource, Api, reqparse
+from flask_restful import Resource, Api, reqparse, request
 from flask_httpauth import HTTPBasicAuth, HTTPDigestAuth
 
 app = Flask('home-assistant-rest-tester')
@@ -87,6 +87,7 @@ api.add_resource(Sensor2, '/sensor2')
 class auth_basic(Resource):
     @auth_basic.login_required
     def get(self):
+        print(request.headers)
         return {'name': 'Sensor',
                 'value': random.randrange(0, 30, 1)}
 
