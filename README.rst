@@ -13,7 +13,7 @@ The `Flask-RESTful <http://flask-restful.readthedocs.io>`__ extension for
 
 .. code:: bash
 
-    $ ./rest-tester.py
+    $ ./ha-rest.py
 
 Flask is running on Port 5000. The response contains various attributes with 
 random assigned values.
