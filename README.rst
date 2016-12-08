@@ -49,7 +49,13 @@ like this:
 The available endpoints are:
 
 - ``/binary_sensor``
+- ``/binary_sensor1``
 - ``/sensor``
+- ``/weather``
+- ``/sensor1``
+- ``/sensor2`` incl. support for POST requests
+- ``/auth_basic`` usable with username 'ha1' and password 'test1' or 'ha2'/'test2'
+- ``/auth_digest`` usable with username 'ha1' and password 'test1' or 'ha2'/'test2'
 
 Web (``ha-web.py``)
 -------------------
