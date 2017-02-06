@@ -70,6 +70,6 @@ http://127.0.0.1:5000/
 
 License
 -------
-``home-assistant-dev-helper`` is licensed under MIT, for more details check
-LICENSE.
+``home-assistant-dev-helper`` is licensed under ASL 2.0, for more details check
+LICENSE.md.
 
