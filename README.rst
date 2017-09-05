@@ -56,6 +56,7 @@ The available endpoints are:
 - ``/sensor2`` incl. support for POST requests
 - ``/auth_basic`` usable with username 'ha1' and password 'test1' or 'ha2'/'test2'
 - ``/auth_digest`` usable with username 'ha1' and password 'test1' or 'ha2'/'test2'
+- ``/ip`` Return the IP address of the remote system
 
 Web (``ha-web.py``)
 -------------------
