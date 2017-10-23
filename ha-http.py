@@ -1,12 +1,10 @@
-#!/usr/bin/python3
-#
 # Copyright (c) 2016-2017, Fabian Affolter <fabian@affolter-engineering.ch>
 # Released under the ASL 2.0 license. See LICENSE.md file for details.
 #
 import random
 from datetime import datetime
 
-from flask import Flask, jsonify
+from flask import Flask, jsonify, Response, render_template
 from flask_restful import Resource, Api, reqparse, request
 from flask_httpauth import HTTPBasicAuth, HTTPDigestAuth
 
@@ -41,6 +39,14 @@ USERS = {
 }
 
 
+parser = reqparse.RequestParser()
+parser.add_argument('value')
+
+
+def generate_sensor():
+    return random.randrange(0, 30, 1)
+
+
 @auth_basic.get_password
 @auth_digest.get_password
 def get_pw(username):
@@ -69,8 +75,8 @@ api.add_resource(IpAddress, '/ip')
 # Condition
 class AwesomeWeather(Resource):
     def get(self):
-        WEATHER_DATA['temp'] = random.randrange(0, 30, 1)
-        WEATHER_DATA['hum'] = random.randrange(40, 100, 1)
+        WEATHER_DATA['temp'] = generate_sensor()
+        WEATHER_DATA['hum'] = generate_sensor()
         WEATHER_DATA['sun'] = random.choice(state2)
         return WEATHER_DATA
 
@@ -95,16 +101,17 @@ api.add_resource(BinarySensor, '/binary_sensor')
 
 class BinarySensor1(Resource):
     def get(self):
-        return {'name': 'Binary sensor',
-                'state1': random.choice(state1),
-                'state2': random.choice(state2),
-                'state3': {'open': random.choice(state3),
-                           'timestamp': str(datetime.now())},
-                'state4': random.choice(state4),
-                'state5': random.choice(state5),
-                'state6': random.choice(state6),
-                'state_6': random.choice(state6),
-                }
+        return {
+            'name': 'Binary sensor',
+            'state1': random.choice(state1),
+            'state2': random.choice(state2),
+            'state3': {'open': random.choice(state3),
+                       'timestamp': str(datetime.now())},
+            'state4': random.choice(state4),
+            'state5': random.choice(state5),
+            'state6': random.choice(state6),
+            'state_6': random.choice(state6),
+        }
 
 
 api.add_resource(BinarySensor1, '/binary_sensor1')
@@ -113,7 +120,7 @@ api.add_resource(BinarySensor1, '/binary_sensor1')
 # Sensor
 class Sensor(Resource):
     def get(self):
-        return {'name': 'Sensor', 'value': random.randrange(0, 30, 1)}
+        return {'name': 'Sensor', 'value': generate_sensor()}
 
 
 api.add_resource(Sensor, '/sensor')
@@ -122,9 +129,9 @@ api.add_resource(Sensor, '/sensor')
 class Sensor1(Resource):
     def get(self):
         return {
-            'sensor+data': random.randrange(0, 30, 1),
-            'sensor_data': random.randrange(0, 30, 1),
-            'sensor-data': random.randrange(0, 30, 1),
+            'sensor+data': generate_sensor(),
+            'sensor_data': generate_sensor(),
+            'sensor-data': generate_sensor(),
             'string': 'a string',
             'float': float(1.00000001)
         }
@@ -132,10 +139,43 @@ class Sensor1(Resource):
 
 api.add_resource(Sensor1, '/sensor1')
 
-# Switch POST for setting
-parser = reqparse.RequestParser()
-parser.add_argument('value')
 
+class SensorData(Resource):
+    def get(self):
+        return Response(str(generate_sensor()), mimetype='application/text')
+
+
+api.add_resource(SensorData, '/sensor_data.txt')
+
+
+class Sensor2(Resource):
+    def get(self):
+        value = generate_sensor()
+        return render_template('sensor.html', name='Sensor2', value=value)
+
+
+api.add_resource(Sensor2, '/sensor2')
+
+
+class Sensor3(Resource):
+    def get(self):
+        return '12'
+
+
+api.add_resource(Sensor3, '/sensor3')
+
+
+class SensorAuth(Resource):
+    @auth_basic.login_required
+    def get(self):
+        value = generate_sensor()
+        return render_template('sensor.html', name='Sensor Auth', value=value)
+
+
+api.add_resource(SensorAuth, '/sensor_auth')
+
+
+# Switch POST for setting
 switch_state = {'name': 'Switch', 'value': None}
 
 
@@ -175,7 +215,7 @@ class auth_basic(Resource):
     @auth_basic.login_required
     def get(self):
         print(request.headers)
-        return {'name': 'Sensor', 'value': random.randrange(0, 30, 1)}
+        return {'name': 'Sensor', 'value': generate_sensor()}
 
 
 api.add_resource(auth_basic, '/auth_basic')
@@ -184,7 +224,7 @@ api.add_resource(auth_basic, '/auth_basic')
 class auth_digest(Resource):
     @auth_digest.login_required
     def get(self):
-        return {'name': 'Sensor', 'value': random.randrange(0, 30, 1)}
+        return {'name': 'Sensor', 'value': generate_sensor()}
 
 
 api.add_resource(auth_digest, '/auth_digest')
