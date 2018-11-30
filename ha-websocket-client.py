@@ -8,11 +8,11 @@ import json
 
 import asyncws
 
-ACCESS_TOKEN = 'ABCDE'
+ACCESS_TOKEN = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiI3ZDg2Mzc3NzIwYjQ0M2YyOWI2MzE2ZTdmMjI3Njc0OCIsImlhdCI6MTU0MzYwMTY1OCwiZXhwIjoxODU4OTYxNjU4fQ.uSatzdHOC-ozC9OnI0pUk63Mtuawy7bauRG6k-swP9g'
 
 
 async def main():
-    """Simple echo WebSocket client for Home Assistant."""
+    """Simple WebSocket client for Home Assistant."""
     websocket = await asyncws.connect('ws://localhost:8123/api/websocket')
 
     await websocket.send(json.dumps(
