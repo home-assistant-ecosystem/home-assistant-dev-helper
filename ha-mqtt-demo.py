@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Copyright (c) 201617, Fabian Affolter <fabian@affolter-engineering.ch>
+Copyright (c) 2016-2021, Fabian Affolter <fabian@affolter-engineering.ch>
 
 Released under the ASL 2.0 license. See LICENSE.md file for details.
 
